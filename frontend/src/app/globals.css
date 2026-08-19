@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Jomulhari&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -24,6 +25,7 @@
   --color-marian-crimson: var(--marian-crimson);
   --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
+  --font-serif: 'Jomulhari', serif;
 }
 
 body {

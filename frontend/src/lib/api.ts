@@ -54,11 +54,17 @@ export async function apiFetch<T>(
     ...(options.headers as Record<string, string>),
   };
 
+  const controller = new AbortController();
+  // Fail fast in 3 seconds to prevent long loading states when backend is down
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
+
   try {
     const response = await fetch(url, {
       ...options,
       headers,
+      signal: options.signal || controller.signal,
     });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       let sanitizedMessage = 'MARIAN couldn\'t complete that request. Please try again.';

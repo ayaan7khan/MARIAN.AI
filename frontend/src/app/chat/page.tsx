@@ -32,7 +32,7 @@ export default function ChatPage() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0B0B0C] relative">
+    <div className="flex h-screen overflow-hidden bg-[#050505] relative">
       {/* Sidebar (Desktop + Mobile Drawer) */}
       <Sidebar
         conversations={conversations}
