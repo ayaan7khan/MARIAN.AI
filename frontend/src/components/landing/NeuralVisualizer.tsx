@@ -13,75 +13,95 @@ export const NeuralVisualizer: React.FC = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
+    let time = 0;
 
     const resize = () => {
       canvas.width = canvas.parentElement?.clientWidth || 600;
-      canvas.height = canvas.parentElement?.clientHeight || 400;
+      canvas.height = canvas.parentElement?.clientHeight || 500;
     };
 
     resize();
     window.addEventListener('resize', resize);
 
-    // Particle nodes
-    const particleCount = 45;
-    const particles: {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      color: string;
-    }[] = [];
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        radius: Math.random() * 2 + 1,
-        color: Math.random() > 0.3 ? '#F4F6A6' : '#C6283D',
-      });
-    }
-
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      
+      time += 0.005;
 
-      // Render neural network connection links
-      for (let i = 0; i < particleCount; i++) {
-        for (let j = i + 1; j < particleCount; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // Draw subtle orbital rings
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 50, 180, 60, time * 0.5, 0, 2 * Math.PI);
+      ctx.strokeStyle = 'rgba(212, 20, 61, 0.1)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            const alpha = (1 - dist / 110) * 0.25;
-            ctx.strokeStyle = `rgba(244, 246, 166, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + 50, 220, 80, -time * 0.3, 0, 2 * Math.PI);
+      ctx.strokeStyle = 'rgba(212, 20, 61, 0.05)';
+      ctx.stroke();
+
+      // Draw glowing central cube (isometric projection)
+      const size = 60;
+      const h = size * Math.sqrt(3) / 2; // height of a triangle
+
+      const points = [
+        { x: cx, y: cy - size }, // Top
+        { x: cx + h, y: cy - size/2 }, // Top Right
+        { x: cx + h, y: cy + size/2 }, // Bottom Right
+        { x: cx, y: cy + size }, // Bottom
+        { x: cx - h, y: cy + size/2 }, // Bottom Left
+        { x: cx - h, y: cy - size/2 }, // Top Left
+        { x: cx, y: cy } // Center
+      ];
+
+      // Draw cube lines
+      ctx.strokeStyle = 'rgba(212, 20, 61, 0.8)';
+      ctx.lineWidth = 1.5;
+      
+      // Outer hexagon
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for(let i=1; i<6; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
       }
+      ctx.closePath();
+      ctx.stroke();
 
-      // Draw and move particles
-      for (let p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
+      // Inner lines
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      ctx.lineTo(points[6].x, points[6].y);
+      ctx.moveTo(points[2].x, points[2].y);
+      ctx.lineTo(points[6].x, points[6].y);
+      ctx.moveTo(points[4].x, points[4].y);
+      ctx.lineTo(points[6].x, points[6].y);
+      ctx.stroke();
 
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
+      // Add glow
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = 'rgba(212, 20, 61, 0.6)';
+      
+      // Floating particles
+      for(let i=0; i<15; i++) {
+        const px = cx + Math.cos(time * 2 + i) * (80 + Math.sin(time + i)*20);
+        const py = cy + Math.sin(time * 2 + i) * (80 + Math.cos(time + i)*20);
+        
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
+        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212, 20, 61, 0.8)';
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
+
+      ctx.shadowBlur = 0;
+
+      // Draw 'M' in the center
+      ctx.font = '24px serif';
+      ctx.fillStyle = '#D4143D';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('M', cx, cy + 5);
 
       animationFrameId = requestAnimationFrame(draw);
     };
@@ -95,28 +115,25 @@ export const NeuralVisualizer: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-[380px] md:h-[440px] rounded-2xl bg-[#121214] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
+    <div className="relative w-full h-[450px] md:h-[550px] rounded-2xl bg-[#080808] border border-[#242424] overflow-hidden shadow-2xl flex items-center justify-center">
       {/* Background ambient lighting */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0B0C] via-transparent to-[#F4F6A6]/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#D4143D]/5 via-transparent to-transparent pointer-events-none" />
 
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* Floating telemetry overlay card */}
-      <div className="relative z-10 p-6 rounded-xl bg-[#0B0B0C]/80 backdrop-blur-md border border-white/10 max-w-sm text-left space-y-3 shadow-2xl">
-        <div className="flex items-center justify-between font-mono text-[11px] text-[#A1A1AA]">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#F4F6A6] animate-pulse" />
-            MARIAN NEURAL ENGINE
+      <div className="absolute bottom-6 left-6 p-4 rounded-xl bg-[#050505]/90 backdrop-blur-md border border-[#242424] max-w-xs text-left space-y-2 shadow-2xl z-10">
+        <div className="flex items-center justify-between font-sans text-[10px] text-[#A8A29A] uppercase tracking-wider">
+          <span className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4143D] animate-pulse" />
+            MARIAN CORE
           </span>
-          <span className="text-[#F4F6A6]">99.98% ACCURACY</span>
         </div>
-        <p className="text-xs text-[#F5F5F0] leading-relaxed font-mono">
-          &gt; Initializing multi-head spatial reasoning matrix...
-          <br />
-          &gt; Stream latency: 18ms
-          <br />
-          &gt; Active context: 200,000 tokens
-        </p>
+        <div className="text-xs text-[#F3E7CF] leading-relaxed font-mono opacity-80">
+          <div><span className="text-[#D4143D]">&gt;</span> Model: Omni-V3</div>
+          <div><span className="text-[#D4143D]">&gt;</span> Status: Online</div>
+          <div><span className="text-[#D4143D]">&gt;</span> Latency: 12ms</div>
+        </div>
       </div>
     </div>
   );

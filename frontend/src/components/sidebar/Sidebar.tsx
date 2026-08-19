@@ -63,9 +63,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#0B0B0C] border-r border-[#27272A] w-64 select-none">
+    <div className="flex flex-col h-full bg-[#080808] border-r border-[#242424] w-64 select-none">
       {/* Header & Logo */}
-      <div className="p-4 flex items-center justify-between border-b border-[#27272A]">
+      <div className="p-4 flex items-center justify-between border-b border-[#242424]">
         <Logo size="sm" />
         {onCloseMobile && (
           <button
@@ -80,28 +80,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Guest Trial Status Banner */}
       {!isSignedIn && (
-        <div className="mx-3 mt-3 p-2.5 rounded-xl bg-[#121214] border border-[#F4F6A6]/30 text-xs flex items-center justify-between">
-          <div className="flex items-center gap-1.5 font-medium text-[#F5F5F0]">
-            <Sparkles className="w-3.5 h-3.5 text-[#F4F6A6]" />
+        <div className="mx-3 mt-3 p-2.5 rounded-xl bg-[#0D0D0D] border border-[#D4143D]/30 text-xs flex items-center justify-between">
+          <div className="flex items-center gap-1.5 font-medium text-[#F3E7CF]">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4143D]" />
             <span>Guest Trial</span>
           </div>
-          <span className="font-mono text-[11px] font-bold text-[#F4F6A6] bg-[#F4F6A6]/10 px-2 py-0.5 rounded-full border border-[#F4F6A6]/30">
+          <span className="font-mono text-[11px] font-bold text-[#D4143D] bg-[#D4143D]/10 px-2 py-0.5 rounded-full border border-[#D4143D]/30">
             {guestMessageCount}/{maxGuestMessages} Chats
           </span>
         </div>
       )}
 
-      {/* New Chat Action Button */}
       <div className="p-3">
         <button
           onClick={() => {
             onNewChat();
             if (onCloseMobile) onCloseMobile();
           }}
-          className="w-full py-2.5 px-3 rounded-xl bg-[#F4F6A6] text-[#0B0B0C] hover:bg-[#D4D686] font-semibold text-xs transition-all duration-200 shadow-md shadow-[#F4F6A6]/10 flex items-center justify-center gap-2 group"
+          className="w-full py-2.5 px-3 rounded-xl bg-[#D4143D] text-[#F3E7CF] hover:bg-[#8F1028] font-semibold text-xs transition-all duration-200 shadow-[0_0_15px_rgba(212,20,61,0.2)] flex items-center justify-center gap-2 group border border-transparent hover:border-[#D4143D]"
         >
-          <Plus className="w-4 h-4 text-[#0B0B0C] group-hover:rotate-90 transition-transform duration-200" />
-          <span>New Chat</span>
+          <Plus className="w-4 h-4 text-[#F3E7CF] group-hover:rotate-90 transition-transform duration-200" />
+          <span className="tracking-wide">New Chat</span>
         </button>
       </div>
 
@@ -114,7 +113,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search conversations..."
-            className="w-full bg-[#121214] border border-[#27272A] text-xs text-[#F5F5F0] placeholder-[#A1A1AA] rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:border-[#F4F6A6] transition-colors"
+            className="w-full bg-[#0D0D0D] border border-[#242424] text-xs text-[#F5F5F0] placeholder-[#A1A1AA] rounded-xl pl-8 pr-3 py-1.5 focus:outline-none focus:border-[#D4143D] transition-colors"
           />
         </div>
       </div>
@@ -133,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
 
         {/* Workspace section */}
-        <div className="pt-3 border-t border-[#27272A] space-y-1">
+        <div className="pt-3 border-t border-[#242424] space-y-1">
           <div className="px-3 text-[11px] font-mono font-medium text-[#A1A1AA] uppercase tracking-wider">
             Workspace
           </div>
@@ -148,16 +147,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
           <Link
             href="/chat"
-            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs text-[#A1A1AA] hover:text-[#F5F5F0] hover:bg-[#121214] transition-colors"
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs text-[#A1A1AA] hover:text-[#F3E7CF] hover:bg-[#0D0D0D] transition-colors"
           >
             <FolderKanban className="w-3.5 h-3.5 text-[#A1A1AA]" />
             <span>Projects & Files</span>
           </Link>
           <Link
             href="/settings/integrations"
-            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs text-[#A1A1AA] hover:text-[#F5F5F0] hover:bg-[#121214] transition-colors"
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs text-[#A1A1AA] hover:text-[#F3E7CF] hover:bg-[#0D0D0D] transition-colors"
           >
-            <Calendar className="w-3.5 h-3.5 text-[#F4F6A6]" />
+            <Calendar className="w-3.5 h-3.5 text-[#D4143D]" />
             <span className="flex-1">Google Calendar</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           </Link>
@@ -165,9 +164,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Footer / Settings & Clerk Profile Menu */}
-      <div className="p-3 border-t border-[#27272A] relative bg-[#0B0B0C]">
+      <div className="p-3 border-t border-[#242424] relative bg-[#080808]">
         {isSignedIn ? (
-          <div className="flex items-center justify-between gap-2.5 p-2 rounded-xl bg-[#121214] border border-[#27272A]">
+          <div className="flex items-center justify-between gap-2.5 p-2 rounded-xl bg-[#0D0D0D] border border-[#242424]">
             <UserButton
               showName
               appearance={{
@@ -179,21 +178,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
               <Link
                 href="/user-profile"
-                className="text-[#A1A1AA] hover:text-[#F4F6A6] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
+                className="text-[#A1A1AA] hover:text-[#F3E7CF] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
                 title="Clerk User Profile"
               >
                 <User className="w-4 h-4" />
               </Link>
               <Link
                 href="/settings"
-                className="text-[#A1A1AA] hover:text-[#F5F5F0] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
+                className="text-[#A1A1AA] hover:text-[#F3E7CF] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
                 title="Settings"
               >
                 <Settings className="w-4 h-4" />
               </Link>
               <Link
                 href="/settings"
-                className="text-[#A1A1AA] hover:text-[#F5F5F0] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
+                className="text-[#A1A1AA] hover:text-[#F3E7CF] p-1.5 rounded-lg hover:bg-[#18181B] transition-colors"
                 title="Help & Support"
               >
                 <HelpCircle className="w-4 h-4" />
@@ -202,7 +201,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ) : (
           <div className="flex items-center gap-2">
             <SignInButton mode="modal">
-              <button className="w-full py-2.5 px-3 rounded-xl bg-[#F4F6A6] text-[#0B0B0C] hover:bg-[#D4D686] font-semibold text-xs shadow-md shadow-[#F4F6A6]/10 transition-all">
+              <button className="w-full py-2.5 px-3 rounded-xl bg-[#D4143D] text-[#F3E7CF] hover:bg-[#8F1028] font-semibold text-xs shadow-[0_0_15px_rgba(212,20,61,0.2)] transition-all">
                 Sign In / Sign Up
               </button>
             </SignInButton>

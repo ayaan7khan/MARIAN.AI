@@ -88,16 +88,16 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         multiple
       />
 
-      <div className="relative rounded-2xl bg-[#121214] border border-white/10 shadow-2xl p-3 focus-within:border-[#F4F6A6]/50 transition-colors">
+      <div className="relative rounded-2xl bg-[#0D0D0D] border border-[#242424] shadow-2xl p-3 focus-within:border-[#D4143D]/50 transition-colors">
         {/* Attachment chips if added */}
         {attachments.length > 0 && (
           <div className="flex flex-wrap gap-2 pb-2 mb-2 border-b border-white/5 px-1">
             {attachments.map((att) => (
               <div
                 key={att.id}
-                className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#18181B] border border-white/10 text-xs text-[#F5F5F0]"
+                className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#111111] border border-[#242424] text-xs text-[#F5F5F0]"
               >
-                <FileText className="w-3.5 h-3.5 text-[#F4F6A6]" />
+                <FileText className="w-3.5 h-3.5 text-[#D4143D]" />
                 <span className="truncate max-w-[140px]">{att.name}</span>
                 <span className="text-[10px] text-[#71717A]">{formatBytes(att.size)}</span>
                 <button
@@ -148,7 +148,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
             {/* Active Model & Token counter */}
             <div className="flex items-center gap-1.5 text-[11px] text-[#71717A] font-mono">
-              <Sparkles className="w-3 h-3 text-[#F4F6A6]" />
+              <Sparkles className="w-3 h-3 text-[#D4143D]" />
               <span>{selectedModelName}</span>
               {input.length > 0 && (
                 <span className="text-[#A1A1AA] font-mono ml-2">
@@ -173,7 +173,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               <button
                 onClick={handleSubmit}
                 disabled={!input.trim() && attachments.length === 0}
-                className="p-2 rounded-xl bg-[#F4F6A6] text-[#0B0B0C] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#E9EB88] transition-all duration-150 shadow-sm"
+                className="p-2 rounded-xl bg-[#D4143D] text-[#F3E7CF] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#8F1028] transition-all duration-150 shadow-sm"
                 title="Send message (Enter)"
               >
                 <ArrowUp className="w-4 h-4 stroke-[2.5]" />

@@ -49,19 +49,19 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
       className={cn(
         'group relative flex gap-4 p-4 md:p-6 rounded-2xl transition-colors',
         isUser
-          ? 'bg-[#121214] border border-white/5 ml-auto max-w-3xl'
+          ? 'bg-[#0D0D0D] border border-[#242424] ml-auto max-w-3xl'
           : 'bg-transparent text-[#F5F5F0]'
       )}
     >
       {/* Avatar Icon */}
       <div className="flex-shrink-0">
         {isUser ? (
-          <div className="w-8 h-8 rounded-full bg-[#18181B] border border-white/10 flex items-center justify-center text-[#F5F5F0]">
+          <div className="w-8 h-8 rounded-full bg-[#111111] border border-[#242424] flex items-center justify-center text-[#F5F5F0]">
             <User className="w-4 h-4 text-[#A1A1AA]" />
           </div>
         ) : (
-          <div className="w-8 h-8 rounded-lg bg-[#121214] border border-[#F4F6A6]/30 flex items-center justify-center text-[#F4F6A6] shadow-sm">
-            <Sparkles className="w-4 h-4 text-[#F4F6A6]" />
+          <div className="w-8 h-8 rounded-lg bg-[#0D0D0D] border border-[#D4143D]/30 flex items-center justify-center text-[#D4143D] shadow-sm">
+            <Sparkles className="w-4 h-4 text-[#D4143D]" />
           </div>
         )}
       </div>
@@ -74,7 +74,7 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
             {isUser ? 'You' : 'MARIAN.AI'}
           </span>
           {message.modelUsed && !isUser && (
-            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#18181B] border border-white/10 text-[#F4F6A6]">
+            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#111111] border border-[#242424] text-[#D4143D]">
               {message.modelUsed}
             </span>
           )}
@@ -89,9 +89,9 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
             {message.attachments.map((att) => (
               <div
                 key={att.id}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181B] border border-white/10 text-xs text-[#A1A1AA]"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#111111] border border-[#242424] text-xs text-[#A1A1AA]"
               >
-                <Paperclip className="w-3.5 h-3.5 text-[#F4F6A6]" />
+                <Paperclip className="w-3.5 h-3.5 text-[#D4143D]" />
                 <span className="truncate max-w-[150px]">{att.name}</span>
               </div>
             ))}
@@ -121,7 +121,7 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
 
                   return (
                     <code
-                      className="px-1.5 py-0.5 rounded bg-[#18181B] border border-white/10 font-mono text-xs text-[#F4F6A6]"
+                      className="px-1.5 py-0.5 rounded bg-[#111111] border border-[#242424] font-mono text-xs text-[#D4143D]"
                       {...props}
                     >
                       {children}
@@ -139,7 +139,7 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
                 },
                 th({ children }) {
                   return (
-                    <th className="bg-[#121214] px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-[#A1A1AA] border-b border-white/10">
+                    <th className="bg-[#0D0D0D] px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-[#A1A1AA] border-b border-white/10">
                       {children}
                     </th>
                   );
@@ -182,7 +182,7 @@ export const Message: React.FC<MessageProps> = ({ message, onRegenerate, onEdit 
                   className={cn(
                     'p-1 rounded transition-colors',
                     feedback === 'thumbs_up'
-                      ? 'text-[#F4F6A6]'
+                      ? 'text-[#D4143D]'
                       : 'text-[#71717A] hover:text-[#F5F5F0] hover:bg-white/5'
                   )}
                   title="Good response"

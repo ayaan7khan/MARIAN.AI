@@ -147,12 +147,12 @@ export async function fetchConversationsApi(): Promise<Conversation[]> {
       model: 'marian-3-omni',
     }));
   } catch {
-    return [];
+    return INITIAL_CONVERSATIONS;
   }
 }
 
 export async function fetchMessagesApi(conversationId: string): Promise<Message[]> {
-  if (!isValidUuid(conversationId)) return [];
+  if (!isValidUuid(conversationId)) return INITIAL_MESSAGES[conversationId] || [];
   try {
     const res = await apiFetch<{ items: Array<{ id: string; conversation_id: string; role: 'user' | 'assistant'; content: string; created_at: string; model?: string }> }>(
       `/conversations/${conversationId}/messages`
@@ -167,7 +167,7 @@ export async function fetchMessagesApi(conversationId: string): Promise<Message[
       modelUsed: m.model || 'MARIAN 3 Omni',
     }));
   } catch {
-    return [];
+    return INITIAL_MESSAGES[conversationId] || [];
   }
 }
 

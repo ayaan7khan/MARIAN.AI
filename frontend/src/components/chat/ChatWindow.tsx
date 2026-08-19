@@ -58,9 +58,9 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0B0B0C] relative">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#050505] relative">
       {/* Sticky Model Selector Header */}
-      <header className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/10 bg-[#0B0B0C]/80 backdrop-blur-md z-10">
+      <header className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#242424] bg-[#050505]/80 backdrop-blur-md z-10">
         <div className="flex items-center gap-3">
           {onOpenMobileSidebar && (
             <button
@@ -75,12 +75,12 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           <div className="relative">
             <button
               onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#121214] border border-white/10 text-xs font-semibold text-[#F5F5F0] hover:bg-[#18181B] transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0D0D0D] border border-[#242424] text-xs font-semibold text-[#F5F5F0] hover:bg-[#111111] transition-colors"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#F4F6A6]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#D4143D]" />
               <span>{selectedModel.name}</span>
               {selectedModel.badge && (
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F4F6A6]/10 text-[#F4F6A6]">
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#D4143D]/10 text-[#D4143D]">
                   {selectedModel.badge}
                 </span>
               )}
@@ -88,7 +88,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
             </button>
 
             {modelDropdownOpen && (
-              <div className="absolute top-11 left-0 w-72 bg-[#121214] border border-white/10 rounded-xl shadow-2xl p-2 z-30 space-y-1">
+              <div className="absolute top-11 left-0 w-72 bg-[#0D0D0D] border border-[#242424] rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.8)] p-2 z-30 space-y-1">
                 <div className="px-2 py-1 text-[11px] font-mono text-[#71717A] uppercase tracking-wider">
                   Select Inference Engine
                 </div>
@@ -102,8 +102,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     className={cn(
                       'w-full text-left p-2.5 rounded-lg text-xs space-y-1 transition-colors',
                       selectedModelId === model.id
-                        ? 'bg-[#18181B] border border-white/10 text-[#F5F5F0]'
-                        : 'text-[#A1A1AA] hover:text-[#F5F5F0] hover:bg-white/5'
+                        ? 'bg-[#111111] border border-[#242424] text-[#F3E7CF]'
+                        : 'text-[#A1A1AA] hover:text-[#F3E7CF] hover:bg-white/5'
                     )}
                   >
                     <div className="flex items-center justify-between font-semibold">
@@ -156,7 +156,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       {showScrollBottom && (
         <button
           onClick={() => scrollToBottom()}
-          className="absolute bottom-24 right-8 p-2 rounded-full bg-[#18181B] border border-white/10 text-[#F5F5F0] shadow-xl hover:bg-[#27272A] transition-all z-20"
+          className="absolute bottom-24 right-8 p-2 rounded-full bg-[#111111] border border-[#242424] text-[#F3E7CF] shadow-xl hover:bg-[#1A1A1A] transition-all z-20"
           aria-label="Scroll to bottom"
         >
           <ArrowDown className="w-4 h-4" />

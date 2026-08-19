@@ -1,257 +1,295 @@
-import React from 'react';
+'use client';
+
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { NeuralVisualizer } from '@/components/landing/NeuralVisualizer';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import {
-  ArrowRight,
-  Sparkles,
-  Brain,
-  Zap,
-  ShieldCheck,
-  Calendar,
-  Code2,
-  Lock,
-  Check,
-} from 'lucide-react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowRight, Brain, Zap, ShieldCheck, Code2 } from 'lucide-react';
+
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 export default function LandingPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Hero Entrance Animation
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Navbar reveal
+    tl.fromTo(
+      '.hero-nav-reveal',
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.1 }
+    );
+
+    // Headline text reveal line by line
+    tl.fromTo(
+      '.hero-title-line',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.15 },
+      '-=0.6'
+    );
+
+    // Supporting text fade up
+    tl.fromTo(
+      '.hero-text',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1 },
+      '-=0.6'
+    );
+
+    // Buttons reveal
+    tl.fromTo(
+      '.hero-btn',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 },
+      '-=0.6'
+    );
+
+    // Visualizer reveal
+    tl.fromTo(
+      '.hero-visual',
+      { scale: 0.95, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 1.5, ease: 'power2.out' },
+      '-=0.8'
+    );
+
+    // Scroll Animations
+    
+    // Feature cards stagger
+    gsap.fromTo(
+      '.feature-card',
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.features-grid',
+          start: 'top 80%',
+        },
+      }
+    );
+
+    // Stats reveal
+    gsap.fromTo(
+      '.stat-item',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.stats-grid',
+          start: 'top 85%',
+        },
+      }
+    );
+
+    // Final CTA reveal
+    gsap.fromTo(
+      '.final-cta',
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.final-cta-section',
+          start: 'top 75%',
+        },
+      }
+    );
+  }, { scope: containerRef });
+
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-[#F5F5F0] selection:bg-[#F4F6A6] selection:text-[#0B0B0C]">
+    <div ref={containerRef} className={`min-h-screen bg-[#050505] text-[#F3E7CF] selection:bg-[#D4143D] selection:text-[#050505] font-sans`}>
       {/* Sticky Navbar */}
-      <Navbar />
+      <div className="hero-nav-reveal">
+        <Navbar />
+      </div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-28 overflow-hidden">
         {/* Background glow effects */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#F4F6A6]/10 blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#D4143D]/10 blur-[160px] rounded-full pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121214] border border-white/10 text-xs">
-            <Badge variant="yellow">MARIAN 3 Omni</Badge>
-            <span className="text-[#A1A1AA]">Next-Gen AI Assistant Platform</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12 relative z-10">
+          <div className="flex-1 space-y-8 text-left md:pr-12">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif tracking-tight leading-[1.05]">
+              <div className="hero-title-line overflow-hidden text-[#F3E7CF]">Intelligence</div>
+              <div className="hero-title-line overflow-hidden text-[#D4143D]">Redefined.</div>
+            </h1>
+
+            <p className="hero-text text-base sm:text-lg text-[#A8A29A] max-w-lg leading-relaxed font-normal">
+              MARIAN.AI is your all-in-one AI companion built to empower ideas, accelerate work, and unlock intelligent workflows.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
+              <Link href="/chat" className="hero-btn group relative inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[#D4143D] text-white font-semibold text-sm transition-all overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#D4143D] focus:ring-offset-2 focus:ring-offset-[#050505]">
+                <div className="absolute inset-0 bg-[#8F1028] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 shadow-[0_0_20px_rgba(212,20,61,0.5)] transition-opacity duration-300 pointer-events-none" />
+                <span className="relative flex items-center gap-2 transform group-hover:-translate-y-[1px] transition-transform duration-300">
+                  Start Building <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+              
+              <a href="#capabilities" className="hero-btn group inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-[#242424] hover:border-[#D4143D]/50 text-[#F3E7CF] hover:text-white font-semibold text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#D4143D]">
+                <span className="transform group-hover:-translate-y-[1px] transition-transform duration-300">Explore Models</span>
+              </a>
+            </div>
+            
+            <div className="pt-8 hero-btn">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[#A8A29A] mb-4">SCROLL TO DISCOVER</p>
+              <div className="w-[1px] h-12 bg-gradient-to-b from-[#A8A29A]/50 to-transparent"></div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#F5F5F0] max-w-4xl mx-auto leading-[1.1]">
-            Intelligence, built <br className="hidden sm:block" />
-            <span className="font-mono text-[#F4F6A6]">around you.</span>
-          </h1>
-
-          <p className="text-base sm:text-xl text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed font-normal">
-            MARIAN.AI is an intelligent, high-precision personal AI assistant engineered for deep reasoning, architectural synthesis, and seamless schedule integration.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link href="/chat">
-              <Button
-                variant="primary"
-                size="lg"
-                rightIcon={<ArrowRight className="w-4 h-4 text-[#0B0B0C]" />}
-              >
-                Start using MARIAN
-              </Button>
-            </Link>
-            <a href="#capabilities">
-              <Button variant="outline" size="lg">
-                Explore Capabilities
-              </Button>
-            </a>
-          </div>
-
-          {/* Neural Canvas Visualizer */}
-          <div className="pt-8 max-w-5xl mx-auto">
+          <div className="flex-1 w-full max-w-lg mx-auto md:max-w-none hero-visual">
             <NeuralVisualizer />
           </div>
         </div>
       </section>
 
+      {/* Trusted By Section */}
+      <section className="py-12 border-y border-[#242424] bg-[#080808]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-8 opacity-60">
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#A8A29A] font-semibold">Trusted by innovators at</p>
+          <div className="flex items-center gap-8 md:gap-16 grayscale hover:grayscale-0 transition-all duration-700">
+            <span className="text-[#A8A29A] font-serif italic text-lg tracking-wide hover:text-white transition-colors">Google</span>
+            <span className="text-[#A8A29A] font-sans font-bold text-lg tracking-tight hover:text-white transition-colors">Microsoft</span>
+            <span className="text-[#A8A29A] font-sans font-medium text-lg hover:text-white transition-colors">Notion</span>
+            <span className="text-[#A8A29A] font-sans font-bold text-lg tracking-tighter hover:text-white transition-colors">Vercel</span>
+            <span className="text-[#A8A29A] font-sans font-bold text-lg hover:text-white transition-colors">stripe</span>
+          </div>
+        </div>
+      </section>
+
       {/* Capabilities Section */}
-      <section id="capabilities" className="py-20 border-t border-white/10 bg-[#0B0B0C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs font-mono font-semibold text-[#F4F6A6] uppercase tracking-wider">
-              Engineered Capabilities
+      <section id="capabilities" className="py-24 bg-[#050505]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl space-y-4 mb-16 features-grid">
+            <span className="text-[10px] font-sans font-semibold text-[#D4143D] uppercase tracking-[0.2em]">
+              Powerful by design
             </span>
-            <h2 className="text-3xl font-bold tracking-tight">Built for serious work.</h2>
-            <p className="text-sm text-[#A1A1AA]">
-              Combining state-of-the-art transformer reasoning with enterprise privacy and real-time execution.
-            </p>
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#F3E7CF] leading-tight">
+              Everything you need,<br />
+              <span className="italic text-[#A8A29A]">built in</span> <span className="text-[#D4143D]">one place.</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 features-grid">
             {[
               {
-                icon: <Brain className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Chain-of-Thought Reasoning',
-                desc: 'Multi-step mathematical proofing, architecture design, and precise logic execution without hallucinating key assumptions.',
+                icon: <Brain className="w-5 h-5 text-[#D4143D]" />,
+                title: 'Advanced Models',
+                desc: 'Access frontier models and fine-tuned versions.',
               },
               {
-                icon: <Calendar className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Google Calendar Sync',
-                desc: 'Contextually aware of your schedule. MARIAN organizes meetings, calculates focus blocks, and resolves conflicting commitments.',
+                icon: <Zap className="w-5 h-5 text-[#D4143D]" />,
+                title: 'Lightning Fast',
+                desc: 'Built for speed, optimized for real-time results.',
               },
               {
-                icon: <Zap className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Low-Latency Streaming',
-                desc: 'Engineered on high-throughput C++ inference backends with instant Server-Sent Events token delivery.',
+                icon: <ShieldCheck className="w-5 h-5 text-[#D4143D]" />,
+                title: 'Secure by Design',
+                desc: 'Enterprise-grade security and data privacy.',
               },
               {
-                icon: <Code2 className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Full-Stack Code Synthesis',
-                desc: 'Understands complex component graphs, TypeScript types, API routing patterns, and security best practices.',
-              },
-              {
-                icon: <Lock className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Zero-Data Retention Option',
-                desc: 'Your data is never used to train public base models. Full support for local state isolation and export.',
-              },
-              {
-                icon: <ShieldCheck className="w-6 h-6 text-[#F4F6A6]" />,
-                title: 'Defensive Security',
-                desc: 'Strict input sanitization, token encryption at rest, and zero client-side credential exposure.',
+                icon: <Code2 className="w-5 h-5 text-[#D4143D]" />,
+                title: 'Developer Ready',
+                desc: 'Robust APIs, SDKs, and extensive documentation.',
               },
             ].map((cap, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-[#121214] border border-white/10 space-y-3 hover:border-[#F4F6A6]/40 transition-colors shadow-lg"
+                className="feature-card group p-6 rounded-2xl bg-[#0D0D0D] border border-[#242424] space-y-4 hover:border-[#D4143D]/30 transition-all duration-500 relative overflow-hidden"
               >
-                <div className="p-3 rounded-xl bg-[#18181B] border border-white/10 w-fit">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#D4143D]/0 to-[#D4143D]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="p-2.5 rounded-lg bg-[#050505] border border-[#242424] w-fit group-hover:border-[#D4143D]/50 transition-colors duration-500">
                   {cap.icon}
                 </div>
-                <h3 className="text-base font-semibold text-[#F5F5F0]">{cap.title}</h3>
-                <p className="text-xs text-[#A1A1AA] leading-relaxed">{cap.desc}</p>
+                <div>
+                  <h3 className="text-sm font-semibold text-[#F3E7CF] mb-1.5">{cap.title}</h3>
+                  <p className="text-xs text-[#A8A29A] leading-relaxed group-hover:text-[#F3E7CF] transition-colors duration-500">{cap.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Research Section */}
-      <section id="research" className="py-20 border-t border-white/10 bg-[#121214]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <Badge variant="crimson">Research & Innovation</Badge>
-            <h2 className="text-3xl font-bold tracking-tight text-[#F5F5F0]">
-              The MARIAN Model Architecture
-            </h2>
-            <p className="text-sm text-[#A1A1AA] leading-relaxed">
-              Our research focuses on combining sparse mixture-of-experts attention mechanisms with deterministic memory retrieval. This guarantees that MARIAN retains deep conversational context while generating tokens at sub-30ms speed.
-            </p>
-            <div className="space-y-3 pt-2">
-              {[
-                'Sparse Multi-Head Self-Attention with 200,000 Token Window',
-                'Deterministic Google Calendar & Tool Execution Protocol',
-                'End-to-End Type Safety and Defensive Markdown Sanitization',
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 text-xs text-[#F5F5F0]">
-                  <Check className="w-4 h-4 text-[#F4F6A6]" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-[#0B0B0C] border border-white/10 font-mono text-xs text-[#F4F6A6] space-y-3 shadow-2xl">
-            <div className="text-[#71717A] text-[11px] pb-2 border-b border-white/10">
-              // MARIAN Transformer Inference Telemetry
-            </div>
-            <p>
-              class MarianInferenceEngine &#123;
-              <br />
-              &nbsp;&nbsp;public async streamTokens(prompt: string): Promise&lt;Stream&gt; &#123;
-              <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;const tokens = await this.transformer.reason(prompt);
-              <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;return tokens.toSseResponse();
-              <br />
-              &nbsp;&nbsp;&#125;
-              <br />
-              &#125;
-            </p>
+          
+          <div className="mt-12 features-grid">
+            <a href="#" className="group inline-flex items-center text-sm text-[#E8C684] hover:text-[#F3E7CF] transition-colors gap-2 relative">
+              Explore All Features <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#F3E7CF] group-hover:w-full transition-all duration-300"></span>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 border-t border-white/10 bg-[#0B0B0C]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-xl mx-auto space-y-3">
-            <span className="text-xs font-mono font-semibold text-[#F4F6A6] uppercase tracking-wider">
-              Transparent Pricing
+      {/* Built for Builder Section */}
+      <section className="py-24 bg-[#080808] border-t border-[#242424]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center stats-grid">
+          <div className="space-y-6 stat-item">
+             <span className="text-[10px] font-sans font-semibold text-[#D4143D] uppercase tracking-[0.2em]">
+              Built for every builder
             </span>
-            <h2 className="text-3xl font-bold tracking-tight">Invest in intelligence.</h2>
-            <p className="text-sm text-[#A1A1AA]">Simple tiers with zero hidden fees.</p>
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#F3E7CF] leading-[1.1]">
+              From solo creators to<br />global enterprises.
+            </h2>
+            <p className="text-sm md:text-base text-[#A8A29A] leading-relaxed max-w-md">
+              MARIAN.AI adapts to your needs with flexible plans, powerful APIs and enterprise-grade reliability.
+            </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                name: 'Starter',
-                price: '$0',
-                period: 'forever free',
-                desc: 'Essential AI chat capabilities for casual explorations.',
-                features: ['Access to MARIAN 3 Flash', 'Standard speed', '10,000 tokens/day', 'Community support'],
-                cta: 'Start Free',
-                variant: 'outline' as const,
-              },
-              {
-                name: 'Pro',
-                price: '$20',
-                period: 'per month',
-                desc: 'Complete suite for power users, developers and researchers.',
-                features: ['Access to MARIAN 3 Omni & Reasoning', 'High-throughput stream engine', 'Google Calendar integration', '200,000 token context', 'Priority support'],
-                cta: 'Upgrade to Pro',
-                variant: 'primary' as const,
-                featured: true,
-              },
-              {
-                name: 'Enterprise',
-                price: 'Custom',
-                period: 'tailored plans',
-                desc: 'Dedicated infrastructure with custom model fine-tuning.',
-                features: ['Custom MARIAN Transformer deployment', 'Zero-data retention SLA', 'Dedicated API Gateway', '24/7 Enterprise Support'],
-                cta: 'Contact Engineering',
-                variant: 'outline' as const,
-              },
-            ].map((tier, idx) => (
-              <div
-                key={idx}
-                className={`p-8 rounded-2xl bg-[#121214] border space-y-6 flex flex-col justify-between relative shadow-xl ${
-                  tier.featured ? 'border-[#F4F6A6]' : 'border-white/10'
-                }`}
-              >
-                {tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#F4F6A6] text-[#0B0B0C] text-[11px] font-semibold uppercase tracking-wider">
-                    Most Popular
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-[#F5F5F0]">{tier.name}</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold font-mono text-[#F5F5F0]">{tier.price}</span>
-                    <span className="text-xs text-[#71717A]">{tier.period}</span>
-                  </div>
-                  <p className="text-xs text-[#A1A1AA]">{tier.desc}</p>
-                  <div className="space-y-2.5 pt-4 border-t border-white/10">
-                    {tier.features.map((feat, fIdx) => (
-                      <div key={fIdx} className="flex items-center gap-2.5 text-xs text-[#F5F5F0]">
-                        <Check className="w-3.5 h-3.5 text-[#F4F6A6]" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <Link href="/chat" className="block pt-4">
-                  <Button variant={tier.variant} className="w-full justify-center">
-                    {tier.cta}
-                  </Button>
-                </Link>
-              </div>
-            ))}
+          
+          <div className="grid grid-cols-2 gap-8 md:gap-12">
+             <div className="space-y-2 stat-item">
+               <div className="text-3xl md:text-4xl font-serif text-[#E8C684]">99.99%</div>
+               <div className="text-xs text-[#A8A29A] uppercase tracking-wider font-semibold">Uptime SLA</div>
+             </div>
+             <div className="space-y-2 stat-item">
+               <div className="text-3xl md:text-4xl font-serif text-[#E8C684]">300K+</div>
+               <div className="text-xs text-[#A8A29A] uppercase tracking-wider font-semibold">Developers</div>
+             </div>
+             <div className="space-y-2 stat-item">
+               <div className="text-3xl md:text-4xl font-serif text-[#E8C684]">2.5B+</div>
+               <div className="text-xs text-[#A8A29A] uppercase tracking-wider font-semibold">API Requests / Month</div>
+             </div>
+             <div className="space-y-2 stat-item">
+               <div className="text-3xl md:text-4xl font-serif text-[#E8C684]">120+</div>
+               <div className="text-xs text-[#A8A29A] uppercase tracking-wider font-semibold">Countries</div>
+             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-32 bg-[#050505] relative overflow-hidden border-t border-[#242424] final-cta-section">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#D4143D]/5 blur-[160px] rounded-full pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-8 final-cta">
+           <h2 className="text-5xl md:text-6xl font-serif text-[#F3E7CF]">
+             Let's build the future,<br />
+             <span className="text-[#D4143D] italic">together.</span>
+           </h2>
+           <div className="pt-4 flex justify-center">
+             <Link href="/chat" className="group relative inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[#D4143D] text-white font-semibold text-sm transition-all overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#D4143D]">
+                <div className="absolute inset-0 bg-[#8F1028] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 shadow-[0_0_30px_rgba(212,20,61,0.6)] transition-opacity duration-300 pointer-events-none" />
+                <span className="relative flex items-center gap-2 transform group-hover:-translate-y-[1px] transition-transform duration-300">
+                  Start Building <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+           </div>
         </div>
       </section>
 
